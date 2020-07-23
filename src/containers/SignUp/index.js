@@ -45,6 +45,7 @@ export default function SignUp (props) {
     const [showSnackbar, shouldShowSnackbar] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState("");
     const [email, setEmail] = useState("");
+    const [username, setUsername] = useState("");
     const [password, setPassword ] = useState("");
     const [confirmPassword, setConfirmPassword ] = useState("");
 
@@ -55,7 +56,7 @@ export default function SignUp (props) {
 
     const handleSignUp = async event => {
         event.preventDefault();
-        const credentials = { email, password, confirmPassword };
+        const credentials = { email, username, password, confirmPassword };
 
         if(credentials.password !== credentials.confirmPassword) {
             setSnackbarMessage("Password Mismatch");
@@ -95,6 +96,15 @@ export default function SignUp (props) {
                                             type="email"
                                             id="email" 
                                             label="Email" />
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <TextField 
+                                            style={{ minWidth: "12rem", width: "75%", maxWidth: "24rem"}}
+                                            onChange={event => setUsername(event.target.value)}
+                                            value={username}
+                                            type="text"
+                                            id="username" 
+                                            label="Username" />
                                     </Grid>
                                     <Grid item xs={12}>
                                         <TextField 

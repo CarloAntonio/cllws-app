@@ -13,7 +13,9 @@ export const signUp = credentials => {
             },
             body: JSON.stringify({
                 email: credentials.email,
-                password: credentials.password
+                username: credentials.username,
+                password: credentials.password,
+                confirmPassword: credentials.confirmPassword
             })
         })
         .then(res => {
@@ -37,6 +39,7 @@ export const signUp = credentials => {
                 dispatch(loginSuccess(resData))
                 localStorage.setItem('token', resData.token);
                 localStorage.setItem('uid', resData.uid);
+                localStorage.setItem('username', resData.username);
                 const remainingMilliseconds = 60 * 60 * 1000;
                 const expiryDate = new Date(
                     new Date().getTime() + remainingMilliseconds
@@ -58,6 +61,7 @@ export const signUp = credentials => {
         });
     }  
 }
+
 export const login = credentials => {
     return dispatch => {
         // update auth loading state
@@ -95,7 +99,6 @@ export const login = credentials => {
                 // things went right
                 dispatch(loginSuccess(resData))
                 localStorage.setItem('token', resData.token);
-                localStorage.setItem('uid', resData.uid);
                 const remainingMilliseconds = 60 * 60 * 1000;
                 const expiryDate = new Date(
                     new Date().getTime() + remainingMilliseconds
@@ -118,6 +121,62 @@ export const login = credentials => {
     }
 }
 
+export const getUserDetails = token => {
+    return dispatch => {
+        // update auth loading state
+        dispatch(setLoading());
+
+        // fetch auth data
+        fetch('http://localhost:8080/auth/getUserDetails', {
+            headers: {
+                Authorization: 'Bearer ' + token
+            },
+        })
+        .then(res => {
+            if (res.status !== 200) throw new Error('Failed to fetch status');
+            return res.json();
+        })
+        .then(resData => {
+            if(resData && resData.message){
+                throw new Error(resData.message)
+            } else {
+                dispatch(setUserDetails(resData))
+            }
+        })
+        .catch(err => {
+            dispatch(loginError(err))
+            return err;
+        });
+    }
+}
+
+export const updateUserPic = (token, formData) => {
+    return dispatch => {
+        // fetch auth data
+        fetch('http://localhost:8080/profile/updateProfilePic', {
+            method: "POST",
+            headers: {
+                Authorization: 'Bearer ' + token,
+            },
+            body: formData
+        })
+        .then(res => {
+            if (res.status !== 200) {
+                throw new Error('Failed to fetch status');
+            }
+            return res.json();
+        })
+        .then(resData => {
+            if(resData && resData.picUrl){
+                dispatch(setUserPic(resData.picUrl))
+            }
+        })
+        .catch(err => {
+            console.log(err);
+        });
+    }
+}
+
 // Local Actions
 const setLoading = () => {
     return {
@@ -132,6 +191,13 @@ const loginSuccess = resData => {
     }
 }
 
+const setUserDetails = resData => {
+    return {
+        type: actionTypes.SET_USER_DETAILS,
+        payload: resData
+    }
+}
+
 const loginError = err => {
     return {
         type: actionTypes.LOGIN_ERROR, 
@@ -142,21 +208,14 @@ const loginError = err => {
 export const setAutoLogout = milliseconds => {
     return dispatch => {
         setTimeout(() => {
-            dispatch(logoutIntermediate());
+            dispatch(logout());
         }, milliseconds);
     }
 };
 
-export const logoutIntermediate = () => {
-    return dispatch => {
-        dispatch(logout())
-        localStorage.removeItem('token');
-        localStorage.removeItem('expiryDate');
-        localStorage.removeItem('userId');
-    }
-};
-
 export const logout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('expiryDate');
     return {
         type: actionTypes.LOGOUT,
     }
@@ -173,5 +232,19 @@ export const setUid = uid => {
     return {
         type: actionTypes.SET_UID,
         payload: uid
+    }
+}
+
+export const setUsername = username => {
+    return {
+        type: actionTypes.SET_USERNAME,
+        payload: username
+    }
+}
+
+export const setUserPic = pic => {
+    return {
+        type: actionTypes.SET_USER_PIC,
+        payload: pic
     }
 }

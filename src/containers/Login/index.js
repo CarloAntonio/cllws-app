@@ -53,7 +53,6 @@ export default function Login(props) {
         const credentials = { email, password };
         
         const result = await dispatch(login(credentials));
-        console.log(result);
         if(result && result.code !== 'ok'){
             setSnackbarMessage(result.message);
             shouldShowSnackbar(true);
