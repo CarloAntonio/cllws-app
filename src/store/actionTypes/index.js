@@ -10,6 +10,9 @@ export const LOGOUT = "LOGOUT";
 export const SET_USERNAME = "SET_USERNAME";
 export const SET_USER_PIC = "SET_USER_PIC"
 
+// user
+export const UPDATE_USER = "UPDATE_USER";
+
 // profile
 export const SET_PROFILE = "SET_PROFILE";
 

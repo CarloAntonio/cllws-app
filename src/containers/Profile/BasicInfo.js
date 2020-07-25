@@ -53,32 +53,10 @@ function BasicInfo(props){
     // lifecycle
     React.useEffect(() => {
         async function fetchBasicInfo(){
-        if(auth.token && auth.uid && !basicInfo){
-            
-            const result = await dispatch(getBasicInfo(auth.token))
-            console.log(result)
-            // try{
-            //   const response = await fetch(`${envEndpoint}post/getPosts`, {
-            //       method: "GET",
-            //       headers: new Headers({
-            //         'Authorization': `Bearer ${auth.stsTokenManager.accessToken}`, 
-            //         'Content-Type': 'application/json'
-            //       }), 
-            //   });
-
-            //   // handle when request completed successfully
-            //   if(response.ok && response.status === 200) { 
-            //       // pull user data
-            //       const result = await response.json();
-            //       dispatch(setUserPosts(result));
-            //   }
-            // } catch(err){
-            //   console.log(err);
-            // }
-        }
+            if(auth.token && !basicInfo) await dispatch(getBasicInfo(auth.token))
         }
         fetchBasicInfo();
-    }, [dispatch]);
+    }, [auth.token]);
 
 
     // local state
@@ -105,20 +83,21 @@ function BasicInfo(props){
     let userData = null;
     // useSelector(state => state.user.summary);
     if(publicProfileMode) userData = null;
-    else userData = {...auth, ...basicInfo}
-
-    console.log(userData);
+    else userData = {...auth.firstName, ...auth.lastName, ...basicInfo}
 
     // logic for displaying traits
     let basicInfoComponents = []
+
+    console.log(userData);
+
     if(userData){
         const oddNumberTraits = Object.keys(userData).length % 2 === 0;
 
-        if(userData.name && userData.name.title){
+        if(userData.firstName){
             basicInfoComponents.push(
-                <Grid item xs={12} lg={6} className={classes.traitBox} key={userData.name.title}>
-                    <Typography color='textPrimary' align="left">{userData.name.title}</Typography>
-                    <Typography align="left">{userData.name.value}</Typography>
+                <Grid item xs={12} lg={6} className={classes.traitBox} key={userData.firstName}>
+                    <Typography color='textPrimary' align="left">Name</Typography>
+                    <Typography align="left">{userData.firstName}</Typography>
                 </Grid>
             )
         }

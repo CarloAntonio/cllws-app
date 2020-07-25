@@ -1,7 +1,7 @@
 import * as actionTypes from "../actionTypes";
 
 const initialState = {
-    basicInfo: null
+    basicInfo: {}
 };
 
 const setProfile = (state, action) => {

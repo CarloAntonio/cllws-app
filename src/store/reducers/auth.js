@@ -2,10 +2,7 @@
 import * as actionTypes from "../actionTypes";
 
 const initialState = {
-    uid: null,
     token: null,
-    username: null,
-    pic: null,
     isLoading: false,
     authError: null
 };
@@ -14,27 +11,6 @@ const setToken = (state, action) => {
     return {
         ...state,
         token: action.payload
-    }
-}
-
-const setUid = (state, action) => {
-    return {
-        ...state,
-        uid: action.payload
-    }
-}
-
-const setUsername = (state, action) => {
-    return {
-        ...state,
-        username: action.payload
-    }
-}
-
-const setUserPic = (state, action) => {
-    return {
-        ...state,
-        pic: action.payload
     }
 }
 
@@ -48,17 +24,6 @@ const setLoading = (state, action) => {
 const loginSuccess = (state, action) => {
     return {
         ...state,
-        uid: action.payload.uid,
-        token: action.payload.token,
-        username: action.payload.username,
-        isLoading: false,
-        authError: null
-    }
-}
-
-const setUserDetails = (state, action) => {
-    return {
-        ...state,
         ...action.payload,
         isLoading: false,
         authError: null
@@ -68,35 +33,22 @@ const setUserDetails = (state, action) => {
 const loginError = (state, action) => {
     return {
         ...state,
-        uid: null,
         token: null,
-        username: null,
         isLoading: false,
         authError: action.payload,
     }
 }
 
 const logout = (state, action) => {
-    return {
-        ...state,
-        uid: null,
-        token: null,
-        username: null,
-        isLoading: false,
-        authError: null
-    }
+    return initialState;
 }
 
 const authReducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.SET_AUTH_LOADING: return setLoading(state, action);
         case actionTypes.LOGIN_SUCCESS: return loginSuccess(state, action);
-        case actionTypes.SET_USER_DETAILS: return setUserDetails(state, action);
         case actionTypes.LOGIN_ERROR: return loginError(state, action);
         case actionTypes.SET_TOKEN: return setToken(state, action);
-        case actionTypes.SET_UID: return setUid(state, action);
-        case actionTypes.SET_USERNAME: return setUsername(state, action);
-        case actionTypes.SET_USER_PIC: return setUserPic(state, action);
         case actionTypes.LOGOUT: return logout(state, action);
         default: return state;
     }

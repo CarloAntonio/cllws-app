@@ -72,7 +72,7 @@ export default function SignUp (props) {
         }
     }
 
-    if (auth.isLoaded && auth.uid) return <Redirect to="/"/>
+    if (auth.isLoaded && auth.token) return <Redirect to="/"/>
 
     return(
         <div className={classes.root}>

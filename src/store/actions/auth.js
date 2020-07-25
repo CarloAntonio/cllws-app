@@ -7,7 +7,7 @@ export const signUp = credentials => {
         dispatch(setLoading());
 
         return fetch('http://localhost:8080/auth/signup', {
-            method: 'PUT',
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -35,11 +35,9 @@ export const signUp = credentials => {
             return res.json();
         })
         .then(resData => {
-            if(resData.token && resData.uid){
+            if(resData.token){
                 dispatch(loginSuccess(resData))
                 localStorage.setItem('token', resData.token);
-                localStorage.setItem('uid', resData.uid);
-                localStorage.setItem('username', resData.username);
                 const remainingMilliseconds = 60 * 60 * 1000;
                 const expiryDate = new Date(
                     new Date().getTime() + remainingMilliseconds
@@ -95,7 +93,7 @@ export const login = credentials => {
             return res.json();
         })
         .then(resData => {
-            if(resData.token && resData.uid){
+            if(resData.token){
                 // things went right
                 dispatch(loginSuccess(resData))
                 localStorage.setItem('token', resData.token);
@@ -121,61 +119,108 @@ export const login = credentials => {
     }
 }
 
-export const getUserDetails = token => {
-    return dispatch => {
-        // update auth loading state
-        dispatch(setLoading());
+// export const getUserDetails = token => {
+//     return dispatch => {
+//         // update auth loading state
+//         dispatch(setLoading());
 
-        // fetch auth data
-        fetch('http://localhost:8080/auth/getUserDetails', {
-            headers: {
-                Authorization: 'Bearer ' + token
-            },
-        })
-        .then(res => {
-            if (res.status !== 200) throw new Error('Failed to fetch status');
-            return res.json();
-        })
-        .then(resData => {
-            if(resData && resData.message){
-                throw new Error(resData.message)
-            } else {
-                dispatch(setUserDetails(resData))
-            }
-        })
-        .catch(err => {
-            dispatch(loginError(err))
-            return err;
-        });
-    }
-}
+//         // fetch auth data
+//         fetch('http://localhost:8080/auth/getUserDetails', {
+//             headers: {
+//                 Authorization: 'Bearer ' + token
+//             },
+//         })
+//         .then(res => {
+//             if (res.status !== 200) throw new Error('Failed to fetch status');
+//             return res.json();
+//         })
+//         .then(resData => {
+//             if(resData && resData.message){
+//                 throw new Error(resData.message)
+//             } else {
+//                 dispatch(setUserDetails(resData))
+//             }
+//         })
+//         .catch(err => {
+//             dispatch(loginError(err))
+//             return err;
+//         });
+//     }
+// }
 
-export const updateUserPic = (token, formData) => {
-    return dispatch => {
-        // fetch auth data
-        fetch('http://localhost:8080/profile/updateProfilePic', {
-            method: "POST",
-            headers: {
-                Authorization: 'Bearer ' + token,
-            },
-            body: formData
-        })
-        .then(res => {
-            if (res.status !== 200) {
-                throw new Error('Failed to fetch status');
-            }
-            return res.json();
-        })
-        .then(resData => {
-            if(resData && resData.picUrl){
-                dispatch(setUserPic(resData.picUrl))
-            }
-        })
-        .catch(err => {
-            console.log(err);
-        });
-    }
-}
+// export const updateUser = (token, data) => {
+//     return dispatch => {
+//         fetch('http://localhost:8080/user/updateUser', {
+//             method: 'PATCH',
+//             headers: {
+//                 Authorization: 'Bearer ' + token,
+//                 'Content-Type': 'application/json'
+//             },
+//             body: JSON.stringify({
+//                 data
+//             })
+//         })
+//         .then(res => {
+//             // reaches backend, handle possible errors
+//             if (res.status === 422) {
+//                 // You did things right, but for some reason something happened on our end.
+//                 throw new Error('An error has occured, our engineers are looking into fixing the problem');
+//             }
+//             if (res.status === 401){
+//                 // You did something wrong and here is what you did wrong
+//                 return res.json();
+//             }
+//             if(res.status !== 200 && res.status !== 201) {
+//                 // You did something wrong but we didn't want to take the time to tell you what you did wrong so here is a catch all error
+//                 throw new Error('Could not authenticate you');
+//             }
+//             return res.json();
+//         })
+//         .then(resData => {
+//             if(resData.message){
+//                 // something went wrong and here's how to fix it
+//                 throw new Error(resData.message);
+//             } else if (resData) {
+//                 // things went right
+//                 dispatch(setUserDetails(resData))
+//             } else {
+//                 // something went wrong but we have no feedback to give you
+//                 throw new Error('Could not authenticate you!');
+//             }
+//         })
+//         .catch(err => {
+//             return err;
+//         })
+//     }
+// }
+
+// export const updateUserPic = (token, formData) => {
+//     return dispatch => {
+//         // fetch auth data
+//         return fetch('http://localhost:8080/profile/updateProfilePic', {
+//             method: "POST",
+//             headers: {
+//                 Authorization: 'Bearer ' + token,
+//             },
+//             body: formData
+//         })
+//         .then(res => {
+//             if (res.status !== 200) {
+//                 throw new Error('Failed to fetch status');
+//             }
+//             return res.json();
+//         })
+//         .then(resData => {
+//             if(resData && resData.picUrl){
+//                 dispatch(setUserPic(resData.picUrl))
+//             }
+//             return resData;
+//         })
+//         .catch(err => {
+//             return err;
+//         });
+//     }
+// }
 
 // Local Actions
 const setLoading = () => {
@@ -191,12 +236,12 @@ const loginSuccess = resData => {
     }
 }
 
-const setUserDetails = resData => {
-    return {
-        type: actionTypes.SET_USER_DETAILS,
-        payload: resData
-    }
-}
+// const setUserDetails = resData => {
+//     return {
+//         type: actionTypes.SET_USER_DETAILS,
+//         payload: resData
+//     }
+// }
 
 const loginError = err => {
     return {
@@ -228,23 +273,23 @@ export const setToken = token => {
     }
 }
 
-export const setUid = uid => {
-    return {
-        type: actionTypes.SET_UID,
-        payload: uid
-    }
-}
+// export const setUid = uid => {
+//     return {
+//         type: actionTypes.SET_UID,
+//         payload: uid
+//     }
+// }
 
-export const setUsername = username => {
-    return {
-        type: actionTypes.SET_USERNAME,
-        payload: username
-    }
-}
+// export const setUsername = username => {
+//     return {
+//         type: actionTypes.SET_USERNAME,
+//         payload: username
+//     }
+// }
 
-export const setUserPic = pic => {
-    return {
-        type: actionTypes.SET_USER_PIC,
-        payload: pic
-    }
-}
+// export const setUserPic = pic => {
+//     return {
+//         type: actionTypes.SET_USER_PIC,
+//         payload: pic
+//     }
+// }

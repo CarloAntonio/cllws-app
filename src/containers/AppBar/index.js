@@ -56,7 +56,8 @@ function CustomAppBar(props) {
 
     // redux state and dispatches
     const showProblemDrawer = useSelector(state => state.misc.showProblemDrawer)
-    const auth = useSelector(state => state.auth)
+    const auth = useSelector(state => state.auth);
+    const user = useSelector(state => state.user);
     const dispatch = useDispatch();
 
     const [open, setOpen] = React.useState(false);
@@ -82,7 +83,7 @@ function CustomAppBar(props) {
     }
 
     const handlePublicProfileClick = e => {
-        handleRedirect(`/profile/${auth.username}`);
+        handleRedirect(`/profile/${user.username}`);
         handleClose(e);
     }
 
@@ -105,9 +106,9 @@ function CustomAppBar(props) {
         props.history.push(location);
     }
 
-    let avatar = <Avatar>{auth.username.charAt(0).toUpperCase()}</Avatar>;
-    if(auth && auth.firstName) {
-        avatar = (<Avatar>{auth.firstName.charAt(0).toUpperCase()}</Avatar>)
+    let avatar = <Avatar>{user.username.charAt(0).toUpperCase()}</Avatar>;
+    if(user && user.firstName) {
+        avatar = (<Avatar>{user.firstName.charAt(0).toUpperCase()}</Avatar>)
     }
     
     return(

@@ -66,7 +66,7 @@ export default function Login(props) {
         shouldShowSnackbar(false);
     }
 
-    if (!auth.isLoading && auth.uid) return <Redirect to="/"/>
+    if (!auth.isLoading && auth.token) return <Redirect to="/"/>
 
     return(
         <div className={classes.root}>

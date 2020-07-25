@@ -7,12 +7,13 @@ import Landing from './containers/Landing';
 import SignUp from './containers/SignUp';
 import Login from './containers/Login';
 import AppBar from './containers/AppBar';
+import OnBoarding from './containers/OnBoarding';
 import Profile from './containers/Profile';
 
 // actions
 import { 
   setToken, 
-  getUserDetails,
+  getUser,
   setAutoLogout, 
   logout 
 } from './store/actions';
@@ -21,10 +22,14 @@ export default function App() {
 
   // redux state and dispatch
   const auth = useSelector(state => state.auth);
+  const user = useSelector(state => state.user);
   const dispatch = useDispatch();
 
   // lifecycles
   React.useEffect(() => {
+    // if auth.token is available, then user just logged in
+    if(auth.token) dispatch(getUser(auth.token))
+
     // extract locally stored items
     const token = localStorage.getItem('token');
     const expiryDate = localStorage.getItem('expiryDate');
@@ -41,16 +46,14 @@ export default function App() {
     }
 
     // set extracted items
-    const uid = localStorage.getItem('uid');
     const remainingMilliseconds = new Date(expiryDate).getTime() - new Date().getTime();
     dispatch(setToken(token));
     dispatch(setAutoLogout(remainingMilliseconds));
-    dispatch(getUserDetails(token))
-  }, [dispatch]);
+  }, [auth.token]);
 
   // return a loading page while auth data is fetched
   // TODO: turn into a loading page
-  if(auth.isLoading && !auth.uid) return null;
+  if(auth.isLoading && !auth.token) return null;
 
   let routes = (
     <Switch>
@@ -61,46 +64,32 @@ export default function App() {
     </Switch>
   )
 
-  if (!auth.isLoading && auth.uid) {
-    routes = (
-      <React.Fragment>
-        <AppBar/>
-        <Switch>
-            <Route path='/profile' exact component={ Profile }/>
-            {/* <Route path='/profile/:id' exact component={ ProfilePublic }/>
-            <Route path='/homeroom' exact component={ HomeRoom }/>
-            <Route path='/homeroom/:grade' exact component={ GradeRoom }/>
-            <Route path='/homeroom/:grade/:subject' exact component={ SubjectRoom }/>
-            <Route path='/homeroom/:grade/:subject/:lessonId' exact component={ Lesson }/> */}
-            <Redirect to="/profile"/>
-        </Switch>
-      </React.Fragment>
-    )
-    // if(summary.onBoarded){
-    //   routes = (
-    //     <React.Fragment>
-    //       <AppBar/>
-    //       <Switch>
-    //           <Route path='/profile' exact component={ Profile }/>
-    //           {/* <Route path='/profile/:id' exact component={ ProfilePublic }/>
-    //           <Route path='/homeroom' exact component={ HomeRoom }/>
-    //           <Route path='/homeroom/:grade' exact component={ GradeRoom }/>
-    //           <Route path='/homeroom/:grade/:subject' exact component={ SubjectRoom }/>
-    //           <Route path='/homeroom/:grade/:subject/:lessonId' exact component={ Lesson }/> */}
-    //           <Redirect to="/profile"/>
-    //       </Switch>
-    //     </React.Fragment>
-    //   )
-    // } else {
-    //   routes = (
-    //     <React.Fragment>
-    //       <Switch>
-    //           <Route path='/' exact component={ OnBoarding }/>
-    //           <Redirect to="/"/>
-    //       </Switch>
-    //     </React.Fragment>
-    //   )
-    // }
+  if (!auth.isLoading && auth.token) {
+    if(user.onBoarded){
+      routes = (
+        <React.Fragment>
+          <AppBar/>
+          <Switch>
+              <Route path='/profile' exact component={ Profile }/>
+              {/* <Route path='/profile/:id' exact component={ ProfilePublic }/>
+              <Route path='/homeroom' exact component={ HomeRoom }/>
+              <Route path='/homeroom/:grade' exact component={ GradeRoom }/>
+              <Route path='/homeroom/:grade/:subject' exact component={ SubjectRoom }/>
+              <Route path='/homeroom/:grade/:subject/:lessonId' exact component={ Lesson }/> */}
+              <Redirect to="/profile"/>
+          </Switch>
+        </React.Fragment>
+      )
+    } else {
+      routes = (
+        <React.Fragment>
+          <Switch>
+              <Route path='/' exact component={ OnBoarding }/>
+              <Redirect to="/"/>
+          </Switch>
+        </React.Fragment>
+      )
+    }
   }
     
   return (
