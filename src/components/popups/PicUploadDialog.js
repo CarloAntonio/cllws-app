@@ -13,7 +13,7 @@ import Button from '@material-ui/core/Button';
 import DialogActions from '@material-ui/core/DialogActions';
 
 // utils
-// import { updateUserPic } from '../../store/actions/index';
+import { updateUserPic } from '../../store/actions/index';
 
 export default function PicUploadDialog(props){
     // local state
@@ -50,7 +50,7 @@ export default function PicUploadDialog(props){
         const formData = new FormData();
         formData.append('pic', file);
 
-        // if(file) await dispatch(updateUserPic(auth.token, formData))
+        if(file) await dispatch(updateUserPic(auth.token, formData))
     }
 
     const handleClose = () => {

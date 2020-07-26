@@ -13,6 +13,9 @@ import Step1 from './Step1';
 import Step2 from './Step2';
 import Step3 from './Step3';
 
+// utils
+import { isEmptyObj } from '../../utils/helpers';
+
 // assets
 import image1 from '../../assets/images/slider-icon.png';
 import bg from '../../assets/images/banner-bg.png';
@@ -53,7 +56,7 @@ export default function Landing() {
     }
 
     // check is user state has loaded
-    if(Object.keys(user).length === 0 && user.constructor === Object) return null;
+    if(isEmptyObj(user)) return null;
 
     return (
         <div className={classes.root}>

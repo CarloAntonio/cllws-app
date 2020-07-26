@@ -10,8 +10,8 @@ import CardContent from '@material-ui/core/CardContent';
 
 // custom containers
 import BasicInfo from './BasicInfo';
-// import NewPost from './NewPost';
-// import Posts from './Posts';
+import NewPost from './NewPost';
+import Posts from './Posts';
 // import FLAvatar from './FLAvatar';
 
 // utils
@@ -114,12 +114,8 @@ export default function Profile(){
 
           {/* Right Hand Side */}
           <Grid item xs={12} lg={7}>
-
-            {/* New Post Container */}
-            {/* <NewPost/> */}
-
-            {/* Posts Container */}
-            {/* <Posts/> */}
+            <NewPost/>
+            <Posts/>
 
           </Grid>
 

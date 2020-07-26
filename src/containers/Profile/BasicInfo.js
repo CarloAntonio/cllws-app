@@ -21,6 +21,9 @@ import PicUploadDialog from '../../components/popups/PicUploadDialog';
 // actions
 import { getBasicInfo } from '../../store/actions/profile'
 
+// utils
+import { isEmptyObj } from '../../utils/helpers'
+
 const useStyles = makeStyles((theme) => ({
     paper: {
       padding: theme.spacing(2),
@@ -46,14 +49,14 @@ function BasicInfo(props){
 
       // redux state and dispatch
     const auth = useSelector(state => state.auth);
-    const basicInfo = useSelector(state => state.profile.basicInfo);
+    const profile = useSelector(state => state.profile);
+    const user = useSelector(state => state.user);
     const dispatch = useDispatch();
-
-
+    
     // lifecycle
     React.useEffect(() => {
         async function fetchBasicInfo(){
-            if(auth.token && !basicInfo) await dispatch(getBasicInfo(auth.token))
+            if(auth.token && isEmptyObj(profile)) await dispatch(getBasicInfo(auth.token))
         }
         fetchBasicInfo();
     }, [auth.token]);
@@ -83,12 +86,10 @@ function BasicInfo(props){
     let userData = null;
     // useSelector(state => state.user.summary);
     if(publicProfileMode) userData = null;
-    else userData = {...auth.firstName, ...auth.lastName, ...basicInfo}
+    else userData = {...user, ...profile}
 
     // logic for displaying traits
     let basicInfoComponents = []
-
-    console.log(userData);
 
     if(userData){
         const oddNumberTraits = Object.keys(userData).length % 2 === 0;
@@ -200,9 +201,9 @@ function BasicInfo(props){
                 </Grid>
                 {editProfileButton}
             </Paper>
-            {/* <EditProfileDialog 
+            <EditProfileDialog 
                 handleCloseEditProfileDialog={handleCloseEditProfileDialog} 
-                openEditProfileDialog={openEditProfileDialog}/> */}
+                openEditProfileDialog={openEditProfileDialog}/>
             <PicUploadDialog 
                 handleClosePicUploaderDialog={handleClosePicUploaderDialog} 
                 openPicUploaderDialog={openPicUploaderDialog}/>

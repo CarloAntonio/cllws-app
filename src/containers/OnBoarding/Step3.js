@@ -16,7 +16,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import CustomSnack from '../../components/popups/CustomSnack';
 
 // utils
-import { updateBasicProfile, updateUser } from '../../store/actions/index';
+import { updateProfile, updateUser } from '../../store/actions/index';
 
 export default function Step3(props){
     // local state
@@ -29,7 +29,7 @@ export default function Step3(props){
 
     // redux state & dispatch
     const auth = useSelector(state => state.auth);
-    const basicInfo = useSelector(state => state.profile.basicInfo);
+    const profile = useSelector(state => state.profile);
     const dispatch = useDispatch();
 
     // handles state change
@@ -52,15 +52,15 @@ export default function Step3(props){
         // TODO: ADD LOADER
 
         // update basic info
-        const updatedBasicInfo = cloneDeep(basicInfo);
-        if(hometown) updatedBasicInfo.hometown = hometown;
-        if(livesIn) updatedBasicInfo.livesIn = livesIn;
-        if(interest) updatedBasicInfo.interest = interest;
-        if(worksIn) updatedBasicInfo.worksIn = worksIn;
-        if(quote) updatedBasicInfo.quote = quote;
+        const updatedProfile = cloneDeep(profile);
+        if(hometown) updatedProfile.hometown = hometown;
+        if(livesIn) updatedProfile.livesIn = livesIn;
+        if(interest) updatedProfile.interest = interest;
+        if(worksIn) updatedProfile.worksIn = worksIn;
+        if(quote) updatedProfile.quote = quote;
         
         // reach out to db
-        await dispatch(updateBasicProfile(auth.token, updatedBasicInfo));
+        await dispatch(updateProfile(auth.token, updatedProfile));
         await dispatch(updateUser(auth.token, {onBoarded: true}));
 
         // cleanup

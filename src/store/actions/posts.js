@@ -1,12 +1,16 @@
+
 import * as actionTypes from "../actionTypes";
 
-export const getBasicInfo = token => {
+export const addPost = (token, text) => {
     return dispatch => {
         // fetch auth data
-        fetch('http://localhost:8080/profile/getBasicInfo', {
+        fetch('http://localhost:8080/post/addPost', {
+            method: "POST",
             headers: {
-                Authorization: 'Bearer ' + token
-            }
+                Authorization: 'Bearer ' + token,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ text })
         })
         .then(res => {
             if (res.status === 404){
@@ -20,9 +24,10 @@ export const getBasicInfo = token => {
         })
         .then(resData => {
             if(resData && resData.message){
-                dispatch(setProfile(null))
+                throw new Error(resData.message);
             } else {
-                dispatch(setProfile(resData))
+                dispatch(setNewPost(resData))
+                return resData;
             }
         })
         .catch(err => {
@@ -31,15 +36,13 @@ export const getBasicInfo = token => {
     }
 }
 
-export const updateProfile = (token, data) => {
+export const getPosts = token => {
     return dispatch => {
-        return fetch('http://localhost:8080/profile/updateBasicInfo', {
-            method: "POST",
+        // fetch auth data
+        fetch('http://localhost:8080/post/getPosts', {
             headers: {
                 Authorization: 'Bearer ' + token,
-                'Content-Type': 'application/json'
             },
-            body: JSON.stringify({data})
         })
         .then(res => {
             if (res.status === 404){
@@ -53,21 +56,28 @@ export const updateProfile = (token, data) => {
         })
         .then(resData => {
             if(resData && resData.message){
-                dispatch(setProfile(null))
+                throw new Error(resData.message);
             } else {
-                dispatch(setProfile(resData))
+                dispatch(setPosts(resData))
+                return resData;
             }
         })
         .catch(err => {
-            return err;
+            return err
         });
     }
 }
 
-// Local Functions
-export const setProfile = profile => {
+export const setNewPost = post => {
     return {
-        type: actionTypes.SET_PROFILE,
-        payload: profile
+        type: actionTypes.SET_NEW_POST,
+        payload: post
+    }
+}
+
+export const setPosts = posts => {
+    return {
+        type: actionTypes.SET_POSTS,
+        payload: posts
     }
 }
