@@ -4,20 +4,23 @@ import * as actionTypes from "../actionTypes";
 const initialState = {
     token: null,
     isLoading: false,
+    initialLoad: true,
     authError: null
 };
 
 const setToken = (state, action) => {
     return {
         ...state,
-        token: action.payload
+        token: action.payload,
+        initialLoad: false
     }
 }
 
 const setLoading = (state, action) => {
     return {
         ...state,
-        isLoading: true
+        isLoading: true,
+        initialLoad: false
     }
 }
 
@@ -40,7 +43,12 @@ const loginError = (state, action) => {
 }
 
 const logout = (state, action) => {
-    return initialState;
+    return {
+        token: null,
+        isLoading: false,
+        initialLoad: false,
+        authError: null
+    };
 }
 
 const authReducer = (state = initialState, action) => {

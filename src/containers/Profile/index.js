@@ -12,7 +12,7 @@ import CardContent from '@material-ui/core/CardContent';
 import BasicInfo from './BasicInfo';
 import NewPost from './NewPost';
 import Posts from './Posts';
-// import FLAvatar from './FLAvatar';
+import FLAvatar from './FLAvatar';
 
 // utils
 // import { envEndpoint } from '../../utils/firebase-service';
@@ -100,7 +100,7 @@ export default function Profile(){
             </Paper>
 
             {/* Friends List */}
-            {/* <Paper className={classes.paper}>
+            <Paper className={classes.paper}>
               <Grid container item xs={12} justify="center">
                 <Grid container item xs={12} justify="center">
                   <Typography align="center">Friends</Typography>
@@ -108,7 +108,7 @@ export default function Profile(){
                 <FLAvatar/>
                 <FLAvatar/>
               </Grid>
-            </Paper> */}
+            </Paper>
 
           </Grid>
 
@@ -116,7 +116,6 @@ export default function Profile(){
           <Grid item xs={12} lg={7}>
             <NewPost/>
             <Posts/>
-
           </Grid>
 
         </Grid>

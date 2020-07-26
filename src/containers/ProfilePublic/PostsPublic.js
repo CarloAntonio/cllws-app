@@ -27,19 +27,11 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function Posts(props){
+export default function PostsPublic(props){
     const classes = useStyles();
 
-    const auth = useSelector(state => state.auth);
-    const user = useSelector(state => state.user);
-    const posts = useSelector(state => state.posts);
-    const dispatch = useDispatch();
-
-      // lifecycles
-    React.useEffect(() => {
-        // if auth.token is available, then user just logged in
-        if(isEmptyArr(posts) && auth.token) dispatch(getPosts(auth.token));
-    }, [auth.token]);
+    const posts = props.userPosts;
+    const user = props.userData;
 
     // logic for generating post components
     let postsComponents = [];
@@ -62,5 +54,3 @@ function Posts(props){
         </Paper>
     )
 }
-
-export default withRouter(Posts);

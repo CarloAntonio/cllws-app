@@ -20,14 +20,12 @@ const useStyles = makeStyles((theme) => ({
 export default function PostCard(props){
     const classes = useStyles();
 
-    const user = useSelector(state => state.user);
-
     const formatedDate = dateFormat(new Date(props.post.date), "dddd, mmmm dS, yyyy, h:MM TT");
 
     return (
         <Card className={classes.card}>
             <CardHeader
-                avatar={ <Avatar aria-label="recipe" src={user.pic} className={classes.avatar}/> }
+                avatar={ <Avatar aria-label="recipe" src={props.user.pic} className={classes.avatar}/> }
                 title={props.post.text}
                 subheader={formatedDate}
             />

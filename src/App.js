@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Route, Switch, Redirect } from 'react-router-dom';
+import { Route, Switch, Redirect, withRouter } from 'react-router-dom';
 
 // custom components
 import Landing from './containers/Landing';
@@ -9,6 +9,7 @@ import Login from './containers/Login';
 import AppBar from './containers/AppBar';
 import OnBoarding from './containers/OnBoarding';
 import Profile from './containers/Profile';
+import ProfilePublic from './containers/ProfilePublic';
 
 // actions
 import { 
@@ -18,15 +19,20 @@ import {
   logout 
 } from './store/actions';
 
-export default function App() {
+// utils
+import { isEmptyObj } from './utils/helpers';
+
+function App(props) {
 
   // redux state and dispatch
   const auth = useSelector(state => state.auth);
   const user = useSelector(state => state.user);
   const dispatch = useDispatch();
 
+
   // lifecycles
   React.useEffect(() => {
+    console.log(props)
     // if auth.token is available, then user just logged in
     if(auth.token) dispatch(getUser(auth.token))
 
@@ -51,28 +57,27 @@ export default function App() {
     dispatch(setAutoLogout(remainingMilliseconds));
   }, [auth.token]);
 
-  // return a loading page while auth data is fetched
-  // TODO: turn into a loading page
-  if(auth.isLoading && !auth.token) return null;
+  let routes = null
+  if(!auth.isLoading && !auth.token){
+    routes = (
+      <Switch>
+        <Route path='/login' exact component={ Login }/>
+        <Route path='/signup' exact component={ SignUp }/>
+        <Route path='/' component={ Landing }/>   
+        {/* <Redirect to="/"/> */}
+      </Switch>
+    )
+  } else if(!auth.token) return null;
 
-  let routes = (
-    <Switch>
-      <Route path='/' exact component={ Landing }/>   
-      <Route path='/login' exact component={ Login }/>
-      <Route path='/signup' exact component={ SignUp }/>
-      <Redirect to="/"/>
-    </Switch>
-  )
-
-  if (!auth.isLoading && auth.token) {
+  if (!auth.isLoading && auth.token && !isEmptyObj(user)) {
     if(user.onBoarded){
       routes = (
         <React.Fragment>
           <AppBar/>
           <Switch>
               <Route path='/profile' exact component={ Profile }/>
-              {/* <Route path='/profile/:id' exact component={ ProfilePublic }/>
-              <Route path='/homeroom' exact component={ HomeRoom }/>
+              <Route path='/profile/:username' exact component={ ProfilePublic }/>
+              {/* <Route path='/homeroom' exact component={ HomeRoom }/>
               <Route path='/homeroom/:grade' exact component={ GradeRoom }/>
               <Route path='/homeroom/:grade/:subject' exact component={ SubjectRoom }/>
               <Route path='/homeroom/:grade/:subject/:lessonId' exact component={ Lesson }/> */}
@@ -98,3 +103,5 @@ export default function App() {
     </div>
   );
 }
+
+export default withRouter(App);
