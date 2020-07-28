@@ -1,5 +1,6 @@
 
 import * as actionTypes from "../actionTypes";
+import { clearUser, clearProfile, clearPosts } from './index';
 
 export const signUp = credentials => {
     return dispatch => {
@@ -143,10 +144,19 @@ const loginError = err => {
 export const setAutoLogout = milliseconds => {
     return dispatch => {
         setTimeout(() => {
-            dispatch(logout());
+            dispatch(clearReduxAndLogout());
         }, milliseconds);
     }
 };
+
+export const clearReduxAndLogout = () => {
+    return dispatch => {
+        dispatch(logout()) //auth clear
+        dispatch(clearUser()) 
+        dispatch(clearProfile())
+        dispatch(clearPosts())
+    }
+}
 
 export const logout = () => {
     localStorage.removeItem('token');

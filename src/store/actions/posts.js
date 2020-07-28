@@ -85,3 +85,9 @@ export const setPosts = posts => {
         payload: posts
     }
 }
+
+export const clearPosts = () => {
+    return {
+        type: actionTypes.CLEAR_POSTS
+    }
+}

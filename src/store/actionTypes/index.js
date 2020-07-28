@@ -9,13 +9,16 @@ export const LOGOUT = "LOGOUT";
 
 // user
 export const UPDATE_USER = "UPDATE_USER";
+export const CLEAR_USER = "CLEAR_USER";
 
 // profile
 export const SET_PROFILE = "SET_PROFILE";
+export const CLEAR_PROFILE = "CLEAR_PROFILE";
 
 // post
 export const SET_NEW_POST = "SET_NEW_POST";
 export const SET_POSTS = "SET_POSTS";
+export const CLEAR_POSTS = "CLEAR_POSTS";
 
 // misc
 export const OPEN_PROBLEM_DRAWER = "OPEN_PROBLEM_DRAWER";

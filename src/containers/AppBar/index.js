@@ -5,6 +5,7 @@ import { withRouter } from "react-router-dom";
 
 // material-ui
 import { makeStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -20,7 +21,7 @@ import MenuList from '@material-ui/core/MenuList';
 import KeyboardArrowDown from '@material-ui/icons/KeyboardArrowDown';
 
 // utils
-import { logout } from '../../store/actions/index';
+import { clearReduxAndLogout } from '../../store/actions/index';
 
 const drawerWidth = 240;
 
@@ -110,6 +111,11 @@ function CustomAppBar(props) {
     if(user && user.firstName) {
         avatar = (<Avatar>{user.firstName.charAt(0).toUpperCase()}</Avatar>)
     }
+
+    // logic for displaying name
+    let name = user ? user.email : "";
+    if(user && user.firstName) name = user.firstName;
+    if(user && user.firstName && user.lastName) name = name + " " + user.lastName;
     
     return(
         <div>
@@ -119,18 +125,17 @@ function CustomAppBar(props) {
                 })}
             >
                 <Toolbar>
-                    <Chip
-                        avatar={avatar}
-                        color="primary"
-                        label={<Typography variant="subtitle1" className={classes.title}>{"Carlo Bilbao"}</Typography>}
-                        onClick={() => handleRedirect("/profile")}
-                        variant="outlined"/>
-
-                    <Typography variant="h6" className={classes.title}>
-                        Akads
-                    </Typography>
+                <Grid container justify="space-between" alignItems="center" spacing={2}>
+                    <Grid container item justify="flex-start" xs={6}>
+                        <Chip
+                            avatar={avatar}
+                            color="primary"
+                            label={<Typography variant="subtitle1" className={classes.title}>{name}</Typography>}
+                            onClick={() => handleRedirect("/profile")}
+                            variant="outlined"/>
+                    </Grid>
                     
-                    <div>
+                    <Grid container item justify="flex-end" xs={6}>
                         <IconButton
                             ref={anchorRef}
                             aria-label="more"
@@ -152,14 +157,15 @@ function CustomAppBar(props) {
                                     <MenuItem disabled onClick={handleClose}>Donate</MenuItem>
                                     <MenuItem onClick={handleHomeRoomClick}>Home Room</MenuItem>
                                     <MenuItem disabled onClick={handleClose}>Social Room</MenuItem>
-                                    <MenuItem onClick={() => dispatch(logout())}>Logout</MenuItem>
+                                    <MenuItem onClick={() => dispatch(clearReduxAndLogout())}>Logout</MenuItem>
                                 </MenuList>
                                 </ClickAwayListener>
                             </Paper>
                             </Grow>
                         )}
                         </Popper>
-                    </div>
+                    </Grid>
+                    </Grid>
                 </Toolbar>
             </AppBar>
         </div>

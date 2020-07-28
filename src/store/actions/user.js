@@ -101,9 +101,16 @@ export const updateUserPic = (token, formData) => {
     }
 }
 
+export const clearUser = () => {
+    return {
+        type: actionTypes.CLEAR_USER
+    }
+}
+
 const updateUserRedux = data => {
     return {
         type: actionTypes.UPDATE_USER,
         payload: data
     }
 }
+

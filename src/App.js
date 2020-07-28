@@ -16,7 +16,7 @@ import {
   setToken, 
   getUser,
   setAutoLogout, 
-  logout 
+  clearReduxAndLogout
 } from './store/actions';
 
 // utils
@@ -47,7 +47,7 @@ function App(props) {
 
     // logout if session is expired
     if (new Date(expiryDate) <= new Date()) {
-      dispatch(logout());
+      dispatch(clearReduxAndLogout());
       return;
     }
 

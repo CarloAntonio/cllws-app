@@ -49,6 +49,12 @@ export const updateProfile = (token, data) => {
     }
 }
 
+export const clearProfile = () => {
+    return {
+        type: actionTypes.CLEAR_PROFILE
+    }
+}
+
 // Local Functions
 export const setProfile = profile => {
     return {
