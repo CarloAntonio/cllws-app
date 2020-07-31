@@ -20,6 +20,11 @@ export const SET_NEW_POST = "SET_NEW_POST";
 export const SET_POSTS = "SET_POSTS";
 export const CLEAR_POSTS = "CLEAR_POSTS";
 
-// misc
-export const OPEN_PROBLEM_DRAWER = "OPEN_PROBLEM_DRAWER";
-export const CLOSE_PROBLEM_DRAWER = "CLOSE_PROBLEM_DRAWER";
+// friend
+export const SET_FRIENDS = "SET_FRIENDS";
+export const CLEAR_FRIENDS = "CLEAR_FRIENDS";
+
+// left drawer
+export const OPEN_LEFT_DRAWER = "OPEN_LEFT_DRAWER";
+export const CLOSE_LEFT_DRAWER = "CLOSE_LEFT_DRAWER";
+export const SET_LD_OPTIONS = "SET_LD_OPTIONS";

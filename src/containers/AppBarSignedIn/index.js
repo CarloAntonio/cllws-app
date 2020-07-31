@@ -1,3 +1,4 @@
+// libraries
 import React from 'react'
 import { useSelector, useDispatch } from "react-redux";
 import clsx from 'clsx';
@@ -9,8 +10,6 @@ import Grid from '@material-ui/core/Grid';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import Avatar from '@material-ui/core/Avatar';
-import Chip from '@material-ui/core/Chip';
 import IconButton from '@material-ui/core/IconButton';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Grow from '@material-ui/core/Grow';
@@ -19,36 +18,41 @@ import Popper from '@material-ui/core/Popper';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
 import KeyboardArrowDown from '@material-ui/icons/KeyboardArrowDown';
+import MenuIcon from '@material-ui/icons/Menu';
 
 // utils
-import { clearReduxAndLogout } from '../../store/actions/index';
+import { clearReduxAndLogout, openLeftDrawer } from '../../store/actions/index';
 
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
     root: {
-      flexGrow: 1,
+        flexGrow: 1,
     },
     menuButton: {
-      marginRight: theme.spacing(2),
+        marginRight: theme.spacing(2),
+    },
+    large: {
+        width: theme.spacing(14),
+        height: theme.spacing(14),
     },
     title: {
-      flexGrow: 1,
-      color: "#FFF"
+        flexGrow: 1,
+        color: "#FFF"
     },
     appBar: {
         transition: theme.transitions.create(['margin', 'width'], {
-          easing: theme.transitions.easing.sharp,
-          duration: theme.transitions.duration.leavingScreen,
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen,
         }),
     },
-    appBarShift: {
+        appBarShift: {
         width: `calc(100% - ${drawerWidth}px)`,
+        marginLeft: drawerWidth,
         transition: theme.transitions.create(['margin', 'width'], {
             easing: theme.transitions.easing.easeOut,
             duration: theme.transitions.duration.enteringScreen,
         }),
-        marginRight: drawerWidth,
     },
 }));
   
@@ -56,7 +60,7 @@ function CustomAppBar(props) {
     const classes = useStyles();
 
     // redux state and dispatches
-    const showProblemDrawer = useSelector(state => state.misc.showProblemDrawer)
+    const showLeftDrawer = useSelector(state => state.leftDrawer.showLeftDrawer)
     const auth = useSelector(state => state.auth);
     const user = useSelector(state => state.user);
     const dispatch = useDispatch();
@@ -107,32 +111,41 @@ function CustomAppBar(props) {
         props.history.push(location);
     }
 
-    let avatar = <Avatar>{user.username.charAt(0).toUpperCase()}</Avatar>;
-    if(user && user.firstName) {
-        avatar = (<Avatar>{user.firstName.charAt(0).toUpperCase()}</Avatar>)
+    let actionButton = (
+        <React.Fragment>
+                    <IconButton aria-label="add an alarm" onClick={() => dispatch(openLeftDrawer())}>
+            <MenuIcon/>
+        </IconButton>
+            <Typography aria-label="add an alarm" onClick={null}>
+                Cllws
+            </Typography>
+        </React.Fragment>
+
+    )
+    if(showLeftDrawer){
+        actionButton = (
+            <Typography aria-label="add an alarm" onClick={null}>
+                Cllws
+            </Typography>
+        )
     }
 
     // logic for displaying name
     let name = user ? user.email : "";
     if(user && user.firstName) name = user.firstName;
     if(user && user.firstName && user.lastName) name = name + " " + user.lastName;
-    
+
     return(
-        <div>
+        <div className={classes.root}>
             <AppBar position="fixed"
                 className={clsx(classes.appBar, {
-                [classes.appBarShift]: showProblemDrawer,
+                [classes.appBarShift]: showLeftDrawer,
                 })}
             >
                 <Toolbar>
                 <Grid container justify="space-between" alignItems="center" spacing={2}>
-                    <Grid container item justify="flex-start" xs={6}>
-                        <Chip
-                            avatar={avatar}
-                            color="primary"
-                            label={<Typography variant="subtitle1" className={classes.title}>{name}</Typography>}
-                            onClick={() => handleRedirect("/profile")}
-                            variant="outlined"/>
+                    <Grid container item justify="flex-start" alignItems="center" xs={6}>
+                        {actionButton}
                     </Grid>
                     
                     <Grid container item justify="flex-end" xs={6}>

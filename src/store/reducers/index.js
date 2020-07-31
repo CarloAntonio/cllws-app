@@ -7,12 +7,14 @@ import auth from './auth';
 import user from './user';
 import profile from './profile';
 import posts from './posts';
-import misc from './misc';
+import leftDrawer from './leftDrawer';
+import friends from './friends';
 
 export default combineReducers({
     auth,
     user,
     profile,
     posts,
-    misc
+    friends,
+    leftDrawer,
 });

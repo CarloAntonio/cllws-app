@@ -1,5 +1,6 @@
 // libraries
 import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
 // material-ui
 import { makeStyles } from '@material-ui/core/styles';
@@ -7,6 +8,10 @@ import Avatar from '@material-ui/core/Avatar';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+
+// actions
+import { sendFriendRequest } from '../../store/actions';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -28,6 +33,9 @@ const useStyles = makeStyles((theme) => ({
 export default function BasicInfoPublic(props){
     const classes = useStyles();
 
+    const auth = useSelector(state => state.auth);
+    const sentRequest = useSelector(state => state.user.sentRequest)
+    const dispatch = useDispatch();
     const userData = props.userData;
 
     // logic for displaying traits
@@ -105,6 +113,16 @@ export default function BasicInfoPublic(props){
         )
     }
 
+    // logic for handling edit profile modal
+    const handleAddFriend = () => {
+        dispatch(sendFriendRequest(auth.token, userData.username));
+    };
+
+    let addFriendButton = <Button disabled variant="contained" color="primary">Request Sent</Button>;
+    if(sentRequest.findIndex(req => req.username === userData.username) === -1){
+        addFriendButton = <Button onClick={handleAddFriend} color="primary">Add Friend+</Button>;
+    }
+
     return(
         <div>
             <Paper className={classes.paper}>
@@ -114,6 +132,9 @@ export default function BasicInfoPublic(props){
                 <br/>
                 <Grid container item xs={12} justify="center">
                     {basicInfoComponents}
+                </Grid>
+                <Grid container item xs={12} justify="flex-end">
+                    {addFriendButton}
                 </Grid>
             </Paper>
         </div>

@@ -3,6 +3,7 @@ import * as actionTypes from "../actionTypes";
 const initialState = {};
 
 const setProfile = (state, action) => {
+    console.log(action.payload)
     return {
         ...state,
         ...action.payload
