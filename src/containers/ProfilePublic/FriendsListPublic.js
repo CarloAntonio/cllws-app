@@ -1,5 +1,6 @@
+
+// libraries
 import React from  'react';
-import { useSelector, useDispatch } from "react-redux";
 
 // material-ui
 import { makeStyles } from '@material-ui/core/styles';
@@ -9,9 +10,6 @@ import Typography from '@material-ui/core/Typography';
 
 // custom components
 import FLAvatar from '../../components/cards/FLAvatar';
-
-// actions
-import { getFriends } from '../../store/actions';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -25,8 +23,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function FriendsList(props){
     const classes = useStyles();
-
-    const uid = props.uid;
     const friends = props.friends;
 
     if(!friends) return null;

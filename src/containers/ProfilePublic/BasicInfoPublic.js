@@ -9,9 +9,12 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import CheckBoxIcon from '@material-ui/icons/CheckBox';
+import CancelIcon from '@material-ui/icons/Cancel';
 
 // actions
-import { sendFriendRequest } from '../../store/actions';
+import { sendFriendRequest, friendRequestOutcome } from '../../store/actions';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -34,7 +37,10 @@ export default function BasicInfoPublic(props){
     const classes = useStyles();
 
     const auth = useSelector(state => state.auth);
-    const sentRequest = useSelector(state => state.user.sentRequest)
+    const user = useSelector(state => state.user)
+    const friends = useSelector(state => state.user.friends)
+    const sentRequest = useSelector(state => state.user.sentRequest);
+    const pendingReq = useSelector(state => state.user.pendingRequest);
     const dispatch = useDispatch();
     const userData = props.userData;
 
@@ -115,12 +121,33 @@ export default function BasicInfoPublic(props){
 
     // logic for handling edit profile modal
     const handleAddFriend = () => {
-        dispatch(sendFriendRequest(auth.token, userData.username));
+        dispatch(sendFriendRequest(auth.token, userData._id));
     };
 
-    let addFriendButton = <Button disabled variant="contained" color="primary">Request Sent</Button>;
-    if(sentRequest.findIndex(req => req.username === userData.username) === -1){
-        addFriendButton = <Button onClick={handleAddFriend} color="primary">Add Friend+</Button>;
+    const handleRequestOutcome = outcome => {
+        dispatch(friendRequestOutcome(auth.token, userData._id, outcome))
+    }
+
+    // friend request button logic
+    let addFriendButton = <Button onClick={handleAddFriend} color="primary">Add Friend</Button>;;
+    if(user._id === userData._id || friends.includes(userData._id)) addFriendButton = null;
+    if(sentRequest.findIndex(req => req.username === userData.username) !== -1){
+        addFriendButton = <Button disabled variant="contained" color="primary">Request Sent</Button>;
+    }
+    if(pendingReq.findIndex(req => req.username === userData.username) !== -1){
+        addFriendButton = (
+            <React.Fragment>
+                <Grid container justify="flex-end" alignItems="center">
+                    <Typography>Add Friend</Typography>
+                    <IconButton color="secondary" aria-label="confirm friend request" onClick={() => handleRequestOutcome("add")}>
+                        <CheckBoxIcon />
+                    </IconButton>
+                    <IconButton color="secondary" aria-label="deny friend request" onClick={() => handleRequestOutcome("deny")}>
+                        <CancelIcon />
+                    </IconButton>
+                </Grid>
+            </React.Fragment>
+        )
     }
 
     return(
@@ -138,6 +165,5 @@ export default function BasicInfoPublic(props){
                 </Grid>
             </Paper>
         </div>
-
     )
 }

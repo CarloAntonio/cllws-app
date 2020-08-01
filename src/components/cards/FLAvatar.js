@@ -1,7 +1,7 @@
 
 // libraries
 import React from 'react';
-import { withRouter } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 // material-ui
 import { makeStyles } from '@material-ui/core/styles';
@@ -20,11 +20,12 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function FLAvatar(props){
+export default function FLAvatar(props){
     const classes = useStyles();
+    const history = useHistory();
 
     const handleClick = () => {
-        props.history.push(`${props.location.pathname}/${props.friend.username}`)
+        history.push(`/profile/${props.friend.username}`)
     }
 
     // logic for displaying name
@@ -41,5 +42,3 @@ function FLAvatar(props){
         </Grid>
     )
 }
-
-export default withRouter(FLAvatar)

@@ -1,8 +1,6 @@
 
 // libraries
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 
 // material-ui
 import { makeStyles } from '@material-ui/core/styles';
@@ -12,10 +10,6 @@ import Typography from '@material-ui/core/Typography';
 
 // custom components
 import PostCard from '../../components/cards/PostCard';
-
-// helpers
-import { isEmptyArr } from '../../utils/helpers';
-import { getPosts } from '../../store/actions';
 
 const useStyles = makeStyles((theme) => ({
     paper: {

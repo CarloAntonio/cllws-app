@@ -20,7 +20,11 @@ import PersonalityPublic from './PersonalityPublic';
 import FriendsListPublic from './FriendsListPublic';
 
 // utils
-import { getUserPublic, getPostsPublic } from '../../store/actions';
+import { 
+    getUserPublic, 
+    getPostsPublic,
+    getFriendsPublic 
+} from '../../store/actions';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -51,6 +55,7 @@ function ProfilePublic(props){
     // local state
     const [ userData, setUserData ] = useState({});
     const [ userPosts, setUserPosts ] = useState([]);
+    const [ userFriends, setUserFriends ] = useState([]);
 
     // extract username from path
     const username = props.match.params.username;
@@ -69,31 +74,22 @@ function ProfilePublic(props){
                 setUserData(userData);
                 const postsData = await dispatch(getPostsPublic(auth.token, username))
                 setUserPosts(postsData);
+                const friendsData = await dispatch(getFriendsPublic(auth.token, userData._id));
+                setUserFriends(friendsData);
             }
         }
         fetchUserPublicInfo();
-    }, [auth.token, userData.uid]);
+    }, [auth.token, username]);
 
     return (
         <div className={classes.root}>
             <Grid container spacing={2}>
-                {/* Left Hand Side */}
                 <Grid item xs={12} lg={5}>
-
-                    {/* Basic Info Section*/}
                     <BasicInfoPublic userData={userData}/>
-
-                    {/* Personality Section */}
                     <PersonalityPublic/>
-
-                    {/* Friends List Section*/}
-                    <FriendsListPublic/>
-
+                    <FriendsListPublic friends={userFriends}/>
                 </Grid>
-
-                {/* Right Hand Side */}
                 <Grid item xs={12} lg={7}>
-                    {/* Post Section */}
                     <PostsPublic userPosts={userPosts} userData={userData}/>
                 </Grid>
             </Grid>

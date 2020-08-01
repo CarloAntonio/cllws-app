@@ -2,7 +2,6 @@
 // libraries
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 
 // material-ui
 import { makeStyles } from '@material-ui/core/styles';
@@ -27,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function Posts(props){
+export default function Posts(props){
     const classes = useStyles();
 
     const auth = useSelector(state => state.auth);
@@ -62,5 +61,3 @@ function Posts(props){
         </Paper>
     )
 }
-
-export default withRouter(Posts);

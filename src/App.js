@@ -157,8 +157,9 @@ function App(props) {
           <main className={clsx(classes.content, { [classes.contentShift]: showLeftDrawer })}>
             <div className={classes.drawerHeader} />
             <Switch>
-                <Route path='/profile' exact component={ Profile }/>
                 <Route path='/profile/:username' exact component={ ProfilePublic }/>
+                <Route path='/profile' exact component={ Profile }/>
+                
                 {/* <Route path='/homeroom' exact component={ HomeRoom }/>
                 <Route path='/homeroom/:grade' exact component={ GradeRoom }/>
                 <Route path='/homeroom/:grade/:subject' exact component={ SubjectRoom }/>

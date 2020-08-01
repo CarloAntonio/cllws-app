@@ -1,6 +1,6 @@
 // libraries
 import React from 'react';
-import { withRouter } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 // material-ui
 import Grid from '@material-ui/core/Grid';
@@ -9,18 +9,19 @@ import Grid from '@material-ui/core/Grid';
 import NavButton from '../../components/buttons/NavButton';
 import HomeText from '../../components/text/HomeText.js';
 
-function AppBarSignedOut(props) {
+export default  function AppBarSignedOut() {
+    const history = useHistory();
 
     const handleHomeRedirect = () => {
-        props.history.push('/')
+        history.push('/')
     }
 
     const handleLoginRedirect = () => {
-        props.history.push('/login')
+        history.push('/login')
     }
 
     const handleSignUpRedirect = () => {
-        props.history.push('/signup')
+        history.push('/signup')
     }
 
     return (
@@ -36,5 +37,3 @@ function AppBarSignedOut(props) {
         </Grid>
     );
 }
-
-export default withRouter(AppBarSignedOut);

@@ -107,7 +107,7 @@ export const clearUser = () => {
     }
 }
 
-const updateUserRedux = data => {
+export const updateUserRedux = data => {
     return {
         type: actionTypes.UPDATE_USER,
         payload: data
