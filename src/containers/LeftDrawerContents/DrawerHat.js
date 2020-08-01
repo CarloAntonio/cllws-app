@@ -10,9 +10,11 @@ import IconButton from '@material-ui/core/IconButton';
 import Avatar from '@material-ui/core/Avatar';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import Typography from '@material-ui/core/Typography';
 
 // actions
 import { closeLeftDrawer, setLDOptions } from '../../store/actions';
+
 
 // styles
 const useStyles = makeStyles((theme) => ({
@@ -49,11 +51,15 @@ export default function DrawerHat() {
         else dispatch(closeLeftDrawer())
     }
 
+    let title = null;
+    if(options !== 'root') title = <Typography>{options}</Typography>
+
     return (
         <div className={classes.drawerHeaderLeft}>
             <IconButton onClick={() => history.push('/profile')}>
                 <Avatar alt={user.username.charAt(0).toUpperCase()} src={user.pic} className={classes.avatar}/>
             </IconButton>
+            {title}
             <IconButton onClick={handleDrawerBackButton}>
                 {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
             </IconButton>

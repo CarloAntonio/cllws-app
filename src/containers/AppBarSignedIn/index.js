@@ -15,9 +15,6 @@ import RightSideItems from './RightSideItems';
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
-    root: {
-        flexGrow: 1,
-    },
     appBar: {
         transition: theme.transitions.create(['margin', 'width'], {
             easing: theme.transitions.easing.sharp,
@@ -41,7 +38,7 @@ export default function AppBarrSignedIn() {
     const showLeftDrawer = useSelector(state => state.leftDrawer.showLeftDrawer)
 
     return(
-        <div className={classes.root}>
+        <div>
             <AppBar position="fixed" className={clsx(classes.appBar, { [classes.appBarShift]: showLeftDrawer, })} >
                 <Toolbar>
                     <Grid container justify="space-between" alignItems="center" spacing={2}>

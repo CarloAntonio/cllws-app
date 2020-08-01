@@ -86,7 +86,7 @@ function ProfilePublic(props){
             <Grid container spacing={2}>
                 <Grid item xs={12} lg={5}>
                     <BasicInfoPublic userData={userData}/>
-                    <PersonalityPublic/>
+                    {/* <PersonalityPublic/> */}
                     <FriendsListPublic friends={userFriends}/>
                 </Grid>
                 <Grid item xs={12} lg={7}>

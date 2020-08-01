@@ -24,7 +24,7 @@ export default function FriendRequestListItem(props){
     console.log(props)
 
     let name = props.user.firstName;
-    if(props.lastName) name = name + " " + props.user.lastname
+    if(props.user.lastName) name = name + " " + props.user.lastName;
 
     // local actions
     const handleRedirect = username => {
@@ -33,7 +33,7 @@ export default function FriendRequestListItem(props){
 
     return(
         <ListItem button onClick={() => handleRedirect(props.user.username)}>
-            <ListItemIcon >
+            <ListItemIcon>
                 <Avatar alt={props.user.username.charAt(0).toUpperCase()} src={props.user.pic} className={classes.avatar}/>
             </ListItemIcon>
             <ListItemText primary={name} />

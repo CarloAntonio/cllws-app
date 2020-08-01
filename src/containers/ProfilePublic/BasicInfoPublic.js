@@ -17,12 +17,15 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import { sendFriendRequest, friendRequestOutcome } from '../../store/actions';
 
 const useStyles = makeStyles((theme) => ({
+    root: {
+        width: "100%",
+    },
     paper: {
       padding: theme.spacing(2),
       textAlign: 'center',
       color: theme.palette.text.secondary,
       width: "100%",
-      marginBottom: "8px"
+      marginBottom: "8px",
     },
     large: {
       width: theme.spacing(25),
@@ -151,7 +154,7 @@ export default function BasicInfoPublic(props){
     }
 
     return(
-        <div>
+        <div className={classes.root}>
             <Paper className={classes.paper}>
                 <Grid container item xs={12} justify="center">
                     <Avatar alt="Carlo Bilbao" src={userData ? userData.pic : null } className={classes.large}/>

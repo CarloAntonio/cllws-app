@@ -41,7 +41,7 @@ export default function Profile(){
       {/* Left Hand Side */}
       <Grid item xs={12} lg={5}>
         <BasicInfo/>
-        <Personality/>
+        {/* <Personality/> */}
         <FriendsList/>
       </Grid>
       {/* Right Hand Side */}

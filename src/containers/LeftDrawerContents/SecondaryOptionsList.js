@@ -14,7 +14,7 @@ import MailIcon from '@material-ui/icons/Mail';
 // actions
 import { setLDOptions } from '../../store/actions';
 
-export const displayOptions = ['Friends Request'];
+export const displayOptions = ['Request', 'Friends'];
 
 export default function SecondaryOptionsList(){
     const dispatch = useDispatch();
