@@ -72,6 +72,31 @@ export const getPostsPublic = (token, username) => {
     }
 }
 
+export const getFeed = (token, friends) => {
+
+    const queryString = encodeURIComponent(JSON.stringify(friends))
+
+    return async dispatch => {
+        try {
+            const response = await fetch('http://localhost:8080/feed/getFeed/' + queryString, {
+                headers: {
+                    Authorization: 'Bearer ' + token,
+                },
+            })
+
+            const jsonData = await handleResponseErrors(response);
+            if(jsonData instanceof Error) throw jsonData;
+
+            const result = await handleJsonErrors(jsonData);
+            if(result instanceof Error) throw result;
+            else return result;
+
+        } catch(err){
+            return err;
+        }
+    }
+}
+
 export const setNewPost = post => {
     return {
         type: actionTypes.SET_NEW_POST,

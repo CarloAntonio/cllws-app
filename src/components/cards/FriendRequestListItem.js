@@ -21,8 +21,6 @@ export default function FriendRequestListItem(props){
     const classes = useStyles();
     const history = useHistory()
 
-    console.log(props)
-
     let name = props.user.firstName;
     if(props.user.lastName) name = name + " " + props.user.lastName;
 

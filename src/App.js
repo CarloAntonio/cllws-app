@@ -11,6 +11,7 @@ import OnBoarding from './containers/OnBoarding';
 import Profile from './containers/Profile';
 import ProfilePublic from './containers/ProfilePublic';
 import LeftDrawerContents from './containers/LeftDrawerContents';
+import Socialize from './containers/Socialize';
 
 // material-ui
 import { makeStyles, useTheme } from '@material-ui/core/styles';
@@ -159,7 +160,7 @@ function App(props) {
             <Switch>
                 <Route path='/profile/:username' exact component={ ProfilePublic }/>
                 <Route path='/profile' exact component={ Profile }/>
-                
+                <Route path='/socialize' exact component={ Socialize }/>
                 {/* <Route path='/homeroom' exact component={ HomeRoom }/>
                 <Route path='/homeroom/:grade' exact component={ GradeRoom }/>
                 <Route path='/homeroom/:grade/:subject' exact component={ SubjectRoom }/>

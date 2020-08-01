@@ -2,7 +2,7 @@
 import * as actionTypes from "../actionTypes";
 
 const initialState = {
-    showLeftDrawer: false,
+    showLeftDrawer: true,
     options: 'root',
 };
 

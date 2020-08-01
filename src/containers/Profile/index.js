@@ -11,9 +11,8 @@ import BasicInfo from './BasicInfo';
 import FriendsList from './FriendsList';
 import NewPost from './NewPost';
 import Posts from './Posts';
-import Personality from './Personality';
+// import Personality from './Personality';
 
-const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -37,19 +36,19 @@ export default function Profile(){
 
   return (
     <div className={classes.root}>
-    <Grid container spacing={2}>
-      {/* Left Hand Side */}
-      <Grid item xs={12} lg={5}>
-        <BasicInfo/>
-        {/* <Personality/> */}
-        <FriendsList/>
+      <Grid container spacing={2}>
+        {/* Left Hand Side */}
+        <Grid item xs={12} lg={5}>
+          <BasicInfo/>
+          {/* <Personality/> */}
+          <FriendsList/>
+        </Grid>
+        {/* Right Hand Side */}
+        <Grid item xs={12} lg={7}>
+          <NewPost/>
+          <Posts/>
+        </Grid>
       </Grid>
-      {/* Right Hand Side */}
-      <Grid item xs={12} lg={7}>
-        <NewPost/>
-        <Posts/>
-      </Grid>
-    </Grid>
-  </div>
+    </div>
   )
 }
