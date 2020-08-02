@@ -28,7 +28,7 @@ export const getFriends = token => {
 export const getFriendsPublic = (token, id) => {
     return async dispatch => {
         try {
-            const response = await fetch('http://localhost:8080/friend/getFriends' + "/" + id, {
+            const response = await fetch(`http://localhost:8080/friend/getFriends/${id}`, {
                 headers: {
                     Authorization: 'Bearer ' + token
                 }

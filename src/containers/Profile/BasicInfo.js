@@ -59,8 +59,7 @@ function BasicInfo(props){
             if(auth.token && isEmptyObj(profile)) await dispatch(getBasicInfo(auth.token))
         }
         fetchBasicInfo();
-    }, [auth.token]);
-
+    }, [auth.token, dispatch, profile]);
 
     // local state
     const [openEditProfileDialog, setOpenEditProfileDialog] = React.useState(false);

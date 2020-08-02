@@ -1,7 +1,6 @@
 
 // libraries
 import React from 'react';
-import { useSelector } from 'react-redux';
 import dateFormat from 'dateformat';
 
 // material-ui

@@ -4,5 +4,5 @@ export const isEmptyObj = obj => {
 }
 
 export const isEmptyArr = arr => {
-    return arr === undefined || arr.length == 0
+    return arr === undefined || arr.length === 0
 }

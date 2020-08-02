@@ -38,7 +38,7 @@ export default function Posts(props){
     React.useEffect(() => {
         // if auth.token is available, then user just logged in
         if(isEmptyArr(posts) && auth.token) dispatch(getPosts(auth.token));
-    }, [auth.token]);
+    }, [auth.token, dispatch, posts]);
 
     // logic for generating post components
     let postsComponents = [];

@@ -26,7 +26,7 @@ export default function LeftDrawerContents(){
 
     React.useEffect(() => {
         dispatch(getFriends(auth.token))
-    }, [auth]);
+    }, [auth, dispatch]);
 
     let optionsComponents = (
         <React.Fragment>

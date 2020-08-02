@@ -7,7 +7,6 @@ import FriendRequestListItem from '../../components/cards/FriendRequestListItem'
 
 // material ui
 import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
 
 export default function FriendsRequestList(){
     // redux

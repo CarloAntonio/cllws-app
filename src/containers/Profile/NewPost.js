@@ -10,6 +10,9 @@ import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
+// custom component
+import ImgUploaderDialog from '../../components/popups/ImgUploaderDialog'
+
 // utils
 import { addPost } from '../../store/actions'
 
@@ -40,10 +43,20 @@ export default function NewPost() {
 
     // local state
     const [ textPost, setTextPost ] = React.useState("");
+    const [ showMediaPost, setMediaPost ] = React.useState(false);
 
     // redux state and dispatch
     const auth = useSelector(state => state.auth);
     const dispatch = useDispatch();
+
+    // modal
+    const openMediaPostModal = () => {
+        setMediaPost(true)
+    };
+
+    const closeMediaPostModal = () => {
+        setMediaPost(false)
+    };
 
     const handlePostSubmit = async () => {
         await dispatch(addPost(auth.token, textPost));
@@ -64,11 +77,15 @@ export default function NewPost() {
                 />
                 </Grid>
                 <Grid item xs={12} align="right">
-                <Button variant="contained" color="secondary" disabled={textPost === "" ? true : false } onClick={handlePostSubmit}>
-                    Post
-                </Button>
+                    <Button variant="contained" color="secondary" style={{marginRight: "4px"}} onClick={openMediaPostModal}>
+                        Image
+                    </Button>
+                    <Button variant="contained" color="secondary" disabled={textPost === "" ? true : false } onClick={handlePostSubmit}>
+                        Post
+                    </Button>
                 </Grid>
             </Grid>
+            <ImgUploaderDialog showMediaPost={showMediaPost} closeMediaPostModal={closeMediaPostModal}/>
         </Paper>
     )
 }

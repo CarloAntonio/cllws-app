@@ -5,8 +5,6 @@ import { useSelector, useDispatch } from 'react-redux';
 // material-ui
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
 
 // custom components
 import SocialPostCard from './SocialPostCard';
@@ -47,7 +45,7 @@ export default function Posts(props){
             }
         }
         fetchFeed();
-    }, [auth.token]);
+    }, [auth.token, dispatch, user.friends]);
 
     // logic for generating post components
     let postsComponents = [];

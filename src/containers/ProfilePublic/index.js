@@ -7,16 +7,11 @@ import { withRouter } from 'react-router-dom';
 // material-ui
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import Button from '@material-ui/core/Button';
 
 // custom containers
 import BasicInfoPublic from './BasicInfoPublic';
 import PostsPublic from './PostsPublic';
-import PersonalityPublic from './PersonalityPublic';
+// import PersonalityPublic from './PersonalityPublic';
 import FriendsListPublic from './FriendsListPublic';
 
 // utils
@@ -79,7 +74,7 @@ function ProfilePublic(props){
             }
         }
         fetchUserPublicInfo();
-    }, [auth.token, username]);
+    }, [auth.token, username, dispatch]);
 
     return (
         <div className={classes.root}>
