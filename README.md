@@ -7,3 +7,6 @@ This appliction is a social media application what allows users to create a prof
 ### Development Technologies
 - React 
 - Redux
+- HTML5
+- CSS3
+- Javascript (ES6)
