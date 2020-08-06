@@ -23,7 +23,7 @@ export default function PrimaryOptions(){
     const primaryOptions = [
         { text: 'Public Profile', action: () => history.push(`/profile/${user.username}`) },
         { text: 'Donate', action: null },
-        { text: 'Learn', action: () => history.push("/homeroom") },
+        { text: 'Learn', action: () => history.push("/learn") },
         { text: 'Socialize', action: () => history.push("/socialize") },
         { text: 'Logout', action: () => dispatch(clearReduxAndLogout())},
     ]

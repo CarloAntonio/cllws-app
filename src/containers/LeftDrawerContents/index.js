@@ -13,7 +13,7 @@ import FriendsList from './FriendsList';
 import Divider from '@material-ui/core/Divider';
 
 // constant
-import { displayOptions } from './SecondaryOptionsList'
+import { defaultOptions } from './SecondaryOptionsList'
 
 // actions
 import { getFriends } from '../../store/actions';
@@ -36,8 +36,8 @@ export default function LeftDrawerContents(){
         </React.Fragment>
     )
 
-    if(displayOptions[0] === options)  optionsComponents = <FriendsRequestList/>
-    if(displayOptions[1] === options)  optionsComponents = <FriendsList/>
+    if(defaultOptions[0] === options)  optionsComponents = <FriendsRequestList/>
+    if(defaultOptions[1] === options)  optionsComponents = <FriendsList/>
 
     return (
         <React.Fragment>

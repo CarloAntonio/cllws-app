@@ -2,6 +2,7 @@
 // libraries
 import React from 'react';
 import { useDispatch } from 'react-redux';
+import { useLocation, useHistory } from 'react-router-dom';
 
 // material ui
 import List from '@material-ui/core/List';
@@ -14,19 +15,40 @@ import MailIcon from '@material-ui/icons/Mail';
 // actions
 import { setLDOptions } from '../../store/actions';
 
-export const displayOptions = ['Request', 'Friends'];
+// constants
+import { subjects } from '../../utils/constants';
+
+export const defaultOptions = ['Request', 'Friends'];
 
 export default function SecondaryOptionsList(){
     const dispatch = useDispatch();
-
+    const location = useLocation();
+    const history = useHistory();
+    
+    let optionComponents = [];
+    if(location && location.pathname.split('/')[1] === "learn") {
+        optionComponents = subjects.map((text, index) => {
+            return (
+                <ListItem button key={text} onClick={() => history.push(`/learn/${text}`)}>
+                    <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+                    <ListItemText primary={text} />
+                </ListItem>
+            )
+        })
+    } else {
+        optionComponents = defaultOptions.map((text, index) => {
+            return (
+                <ListItem button key={text} onClick={() => dispatch(setLDOptions(text))}>
+                    <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+                    <ListItemText primary={text} />
+                </ListItem>
+            )
+        })
+    }
+    
     return (
         <List>
-            {displayOptions.map((text, index) => (
-            <ListItem button key={text} onClick={() => dispatch(setLDOptions(text))}>
-                <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                <ListItemText primary={text} />
-            </ListItem>
-            ))}
+            {optionComponents}
         </List>
     )
 }

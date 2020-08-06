@@ -12,6 +12,8 @@ import Profile from './containers/Profile';
 import ProfilePublic from './containers/ProfilePublic';
 import LeftDrawerContents from './containers/LeftDrawerContents';
 import Socialize from './containers/Socialize';
+import Learn from './containers/Learn';
+// import Subject from './containers/Subject';
 
 // material-ui
 import { makeStyles } from '@material-ui/core/styles';
@@ -149,8 +151,8 @@ function App(props) {
                 <Route path='/profile/:username' exact component={ ProfilePublic }/>
                 <Route path='/profile' exact component={ Profile }/>
                 <Route path='/socialize' exact component={ Socialize }/>
-                {/* <Route path='/homeroom' exact component={ HomeRoom }/>
-                <Route path='/homeroom/:grade' exact component={ GradeRoom }/>
+                <Route path='/learn' exact component={ Learn }/>
+                {/* <Route path='/learn/:subject' exact component={ Subject }/>
                 <Route path='/homeroom/:grade/:subject' exact component={ SubjectRoom }/>
                 <Route path='/homeroom/:grade/:subject/:lessonId' exact component={ Lesson }/> */}
                 <Redirect to="/profile"/>
